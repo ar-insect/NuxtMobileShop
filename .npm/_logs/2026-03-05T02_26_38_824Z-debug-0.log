@@ -1,0 +1,12 @@
+0 verbose cli /Users/mac/.nvm/versions/node/v22.14.0/bin/node /Users/mac/.nvm/versions/node/v22.14.0/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@10.9.2
+2 info using node@v22.14.0
+3 silly config load:file:/Users/mac/.nvm/versions/node/v22.14.0/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/mac/Documents/Nuxt3_app/NuxtMobileShop/.npmrc
+5 silly config load:file:/Users/mac/.nvm/versions/node/v22.14.0/etc/npmrc
+6 verbose title npm exec expo start --web --localhost --port 8081 --clear
+7 verbose argv "exec" "--" "expo" "start" "--web" "--localhost" "--port" "8081" "--clear"
+8 verbose logfile logs-max:10 dir:/Users/mac/Documents/Nuxt3_app/NuxtMobileShop/.npm/_logs/2026-03-05T02_26_38_824Z-
+9 verbose logfile /Users/mac/Documents/Nuxt3_app/NuxtMobileShop/.npm/_logs/2026-03-05T02_26_38_824Z-debug-0.log
+10 silly logfile start cleaning logs, removing 1 files
+11 silly logfile done cleaning log files
