@@ -5,6 +5,7 @@ import TabNavigator from './TabNavigator';
 import LoginScreen from '../screens/LoginScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import OrdersScreen from '../screens/OrdersScreen';
+import UIDemoScreen from '../screens/UIDemoScreen';
 import { useAuthStore } from '../store/useAuthStore';
 
 const Stack = createStackNavigator();
@@ -23,10 +24,10 @@ const AppNavigator = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
         <Stack.Screen name="Orders" component={OrdersScreen} />
+        <Stack.Screen name="UIDemo" component={UIDemoScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 export default AppNavigator;
-

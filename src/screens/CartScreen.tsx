@@ -13,9 +13,9 @@ const CartScreen = () => {
 
   const handleCheckout = () => {
     if (cartItems.length === 0) return;
-    Alert.alert('Checkout', 'Order placed successfully!', [
+    Alert.alert('结算', '下单成功！', [
       { 
-        text: 'OK', 
+        text: '确定', 
         onPress: () => {
           clearCart();
           navigation.navigate('Orders');
@@ -57,7 +57,7 @@ const CartScreen = () => {
             className="ml-auto bg-red-50 p-2 rounded"
             onPress={() => removeFromCart(item.id)}
           >
-            <Text className="text-red-500 text-xs">Remove</Text>
+            <Text className="text-red-500 text-xs">移除</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -70,7 +70,7 @@ const CartScreen = () => {
         className={`p-4 bg-white border-b border-gray-100 ${nativeShadowClass('sm')}`}
         style={webShadowStyle('sm')}
       >
-        <Text className="text-xl font-bold text-center">My Cart ({cartItems.length})</Text>
+        <Text className="text-xl font-bold text-center">我的购物车 ({cartItems.length})</Text>
       </View>
 
       <ScrollView className="flex-1 p-4">
@@ -78,12 +78,12 @@ const CartScreen = () => {
           cartItems.map(renderItem)
         ) : (
           <View className="items-center justify-center py-20">
-            <Text className="text-gray-400 text-lg">Your cart is empty</Text>
+            <Text className="text-gray-400 text-lg">购物车为空</Text>
             <TouchableOpacity 
               className="mt-4 bg-blue-500 px-6 py-2 rounded-full"
               onPress={() => navigation.navigate('Home')}
             >
-              <Text className="text-white font-bold">Go Shopping</Text>
+              <Text className="text-white font-bold">去购物</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -95,7 +95,7 @@ const CartScreen = () => {
           style={webShadowStyle('lg')}
         >
           <View className="flex-row justify-between mb-4">
-            <Text className="text-gray-600 text-lg">Total:</Text>
+            <Text className="text-gray-600 text-lg">合计:</Text>
             <Text className="text-red-600 text-2xl font-bold">¥{total.toFixed(2)}</Text>
           </View>
           
@@ -104,7 +104,7 @@ const CartScreen = () => {
             style={webShadowStyle('md')}
             onPress={handleCheckout}
           >
-            <Text className="text-white font-bold text-lg">Checkout</Text>
+            <Text className="text-white font-bold text-lg">去结算</Text>
           </TouchableOpacity>
         </View>
       )}

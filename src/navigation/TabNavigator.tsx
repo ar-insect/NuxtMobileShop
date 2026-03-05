@@ -24,9 +24,21 @@ const TabNavigator = () => {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Cart" component={CartScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen 
+        name="Home" 
+        component={HomeScreen} 
+        options={{ tabBarLabel: '首页' }}
+      />
+      <Tab.Screen 
+        name="Cart" 
+        component={CartScreen} 
+        options={{ tabBarLabel: '购物车' }}
+      />
+      <Tab.Screen 
+        name="Profile" 
+        component={ProfileScreen} 
+        options={{ tabBarLabel: '我的' }}
+      />
     </Tab.Navigator>
   );
 };

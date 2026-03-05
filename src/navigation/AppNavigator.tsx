@@ -5,6 +5,7 @@ import TabNavigator from './TabNavigator';
 import LoginScreen from '../screens/LoginScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import OrdersScreen from '../screens/OrdersScreen';
+import UIDemoScreen from '../screens/UIDemoScreen';
 import { useAuthStore } from '../store/useAuthStore';
 
 const Stack = createNativeStackNavigator();
@@ -32,12 +33,17 @@ const AppNavigator = () => {
         <Stack.Screen 
           name="ProductDetail" 
           component={ProductDetailScreen} 
-          options={{ title: 'Product Details' }} 
+          options={{ headerShown: false }} 
         />
         <Stack.Screen 
           name="Orders" 
           component={OrdersScreen} 
-          options={{ title: 'My Orders' }} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="UIDemo" 
+          component={UIDemoScreen} 
+          options={{ headerShown: false }} 
         />
       </Stack.Navigator>
     </NavigationContainer>

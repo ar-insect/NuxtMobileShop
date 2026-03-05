@@ -5,6 +5,7 @@ import { LogBox, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NativeWindStyleSheet } from 'nativewind';
+import { ToastProvider } from './src/ui';
 import AppNavigator from './src/navigation/AppNavigator';
 
 NativeWindStyleSheet.setOutput({
@@ -33,7 +34,9 @@ export default function AppBase() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <AppNavigator />
+        <ToastProvider>
+          <AppNavigator />
+        </ToastProvider>
         <StatusBar style="auto" />
       </SafeAreaProvider>
     </GestureHandlerRootView>
