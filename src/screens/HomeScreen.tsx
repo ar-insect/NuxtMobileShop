@@ -1,34 +1,56 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, ActivityIndicator, FlatList, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useProductStore } from '../store/useProductStore';
-import ProductCard from '../components/ProductCard';
-import { useCartStore } from '../store/useCartStore';
-import { Card, Icon, SearchBar, useToast } from '../ui';
+import FeedCard from '../components/FeedCard';
+import { SearchBar, useToast, Header, Icon, Banner } from '../ui';
+
+const CATEGORIES = [
+  { id: 'all', label: '猜你喜欢' },
+  { id: 'electronics', label: '数码' },
+  { id: 'jewelery', label: '首饰' },
+  { id: "men's clothing", label: '男装' },
+  { id: "women's clothing", label: '女装' },
+];
 
 const HomeScreen = () => {
   const { products, isLoading, fetchProducts } = useProductStore();
-  const { addToCart } = useCartStore();
   const toast = useToast();
   const [keyword, setKeyword] = React.useState('');
-  const [category, setCategory] = React.useState('全部');
+  const [activeTabId, setActiveTabId] = React.useState('all');
 
   React.useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
-  const categories = React.useMemo(() => {
-    const uniq = Array.from(new Set(products.map((p) => p.category).filter(Boolean)));
-    return ['全部', ...uniq];
+  const bannerImages = React.useMemo(() => {
+    return products.slice(0, 5).map(p => p.image);
   }, [products]);
 
   const filteredProducts = React.useMemo(() => {
-    const kw = keyword.trim().toLowerCase();
-    return products.filter((p) => {
-      const byCat = category === '全部' || p.category === category;
-      const byKw = !kw || p.title.toLowerCase().includes(kw);
-      return byCat && byKw;
+    let result = products;
+    
+    if (activeTabId !== 'all') {
+      result = result.filter(p => p.category === activeTabId);
+    }
+
+    if (keyword) {
+      const kw = keyword.trim().toLowerCase();
+      result = result.filter(p => p.title.toLowerCase().includes(kw));
+    }
+    return result;
+  }, [products, keyword, activeTabId]);
+
+  // Split into two columns for masonry effect
+  const [col1, col2] = React.useMemo(() => {
+    const c1: typeof products = [];
+    const c2: typeof products = [];
+    filteredProducts.forEach((p, i) => {
+      if (i % 2 === 0) c1.push(p);
+      else c2.push(p);
     });
-  }, [products, keyword, category]);
+    return [c1, c2];
+  }, [filteredProducts]);
 
   if (isLoading) {
     return (
@@ -38,83 +60,77 @@ const HomeScreen = () => {
     );
   }
 
-  const header = (
-    <View>
-      <View className="bg-white px-4 pt-2 pb-4">
-        <View className="flex-row items-center">
-          <TouchableOpacity
-            className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center"
-            onPress={() => toast.show('菜单')}
-            activeOpacity={0.85}
-          >
-            <Icon name="Menu" size={20} color="#111827" />
-          </TouchableOpacity>
-          <View className="flex-1 items-center">
-            <Text className="text-base font-bold text-gray-900">首页</Text>
-          </View>
-          <View className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center">
-            <Icon name="User" size={18} color="#111827" />
-          </View>
-        </View>
-        <Text className="text-2xl font-bold text-gray-900 mt-3">发现好物</Text>
-        <Text className="text-gray-500 mt-1">精选推荐，天天低价</Text>
-        <View className="mt-4">
+  return (
+    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
+      <Header title="首页" showBack={false} />
+      
+      <ScrollView stickyHeaderIndices={[2]} showsVerticalScrollIndicator={false}>
+        {/* Search Area */}
+        <View className="bg-white px-4 pb-2">
           <SearchBar
             value={keyword}
             onChange={setKeyword}
             onSubmit={() => toast.show(keyword ? `搜索：${keyword}` : '请输入关键词')}
           />
         </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4">
-          {categories.map((c) => {
-            const active = c === category;
-            return (
-              <TouchableOpacity
-                key={c}
-                onPress={() => setCategory(c)}
-                className={`mr-2 px-4 py-2 rounded-full ${active ? 'bg-red-500' : 'bg-gray-100'}`}
-                activeOpacity={0.85}
-              >
-                <Text className={`font-medium ${active ? 'text-white' : 'text-gray-700'}`}>{c}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
 
-      <View className="px-4 mt-4 mb-2 flex-row items-center justify-between">
-        <Text className="text-lg font-bold text-gray-900">推荐商品</Text>
-        <Text className="text-gray-400 text-xs">{filteredProducts.length} 件</Text>
-      </View>
-    </View>
-  );
+        {/* Banner */}
+        <View className="bg-white pb-4">
+          <Banner images={bannerImages} height={160} />
+        </View>
 
-  return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <FlatList
-        data={filteredProducts}
-        keyExtractor={(item) => String(item.id)}
-        numColumns={2}
-        ListHeaderComponent={header}
-        columnWrapperStyle={{ paddingHorizontal: 12, gap: 12 }}
-        contentContainerStyle={{ paddingBottom: 24 }}
-        renderItem={({ item }) => (
-          <View style={{ flex: 1, marginBottom: 12 }}>
-            <ProductCard
-              product={item}
-              onQuickAdd={async (p) => {
-                await addToCart(p);
-                toast.show('已加入购物车');
-              }}
-            />
+        {/* Tabs - Sticky Header */}
+        <View className="bg-white pb-2">
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="px-4" contentContainerStyle={{ paddingRight: 20 }}>
+            {CATEGORIES.map((cat) => {
+              const active = cat.id === activeTabId;
+              return (
+                <TouchableOpacity
+                  key={cat.id}
+                  onPress={() => setActiveTabId(cat.id)}
+                  className={`mr-3 px-4 py-1.5 rounded-full ${active ? 'bg-primary' : 'bg-gray-100'}`}
+                  activeOpacity={0.8}
+                >
+                  <Text className={`font-bold text-sm ${active ? 'text-white' : 'text-gray-600'}`}>
+                    {cat.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+            <TouchableOpacity className="ml-1 w-8 h-8 items-center justify-center bg-gray-100 rounded-full">
+              <Icon name="Plus" size={16} color="#666" />
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+
+        {/* Masonry Feed */}
+        <View className="bg-gray-50 flex-row p-2 min-h-screen">
+          <View className="flex-1 mr-1.5">
+            {col1.map((item) => (
+              <FeedCard 
+                key={item.id} 
+                product={item} 
+                height={150 + (item.id % 3) * 40} // Pseudo-random height: 150, 190, 230
+              />
+            ))}
+          </View>
+          <View className="flex-1 ml-1.5">
+            {col2.map((item) => (
+              <FeedCard 
+                key={item.id} 
+                product={item} 
+                height={150 + ((item.id + 1) % 3) * 40} 
+              />
+            ))}
+          </View>
+        </View>
+        
+        {filteredProducts.length === 0 && (
+          <View className="py-20 items-center bg-gray-50">
+            <Text className="text-gray-500">暂无相关商品</Text>
           </View>
         )}
-        ListEmptyComponent={
-          <Card className="p-6 mx-4 mt-6 items-center">
-            <Text className="text-gray-500">暂无匹配商品</Text>
-          </Card>
-        }
-      />
+      </ScrollView>
     </SafeAreaView>
   );
 };

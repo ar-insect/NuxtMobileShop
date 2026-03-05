@@ -6,7 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NativeWindStyleSheet } from 'nativewind';
 import { ToastProvider } from './src/ui';
-import AppNavigator from './src/navigation/AppNavigator';
+import MainNavigator from './src/navigation/MainNavigator';
 
 NativeWindStyleSheet.setOutput({
   web: 'native',
@@ -31,11 +31,12 @@ LogBox.ignoreLogs([
 ]);
 
 export default function AppBase() {
+  // Main App Entry
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <ToastProvider>
-          <AppNavigator />
+          <MainNavigator />
         </ToastProvider>
         <StatusBar style="auto" />
       </SafeAreaProvider>

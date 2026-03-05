@@ -28,21 +28,28 @@ export default function Button({
   style,
   textStyle,
 }: ButtonProps) {
-  const base = 'rounded-xl items-center justify-center ' + nativeShadowClass('sm');
+  const base = 'rounded-full items-center justify-center ' + nativeShadowClass('sm');
   const byVariant: Record<Variant, string> = {
-    primary: 'bg-blue-600',
-    secondary: 'bg-gray-800',
+    primary: 'bg-primary',
+    secondary: 'bg-gray-100',
     outline: 'bg-transparent border border-gray-300',
     ghost: 'bg-transparent',
-    danger: 'bg-red-600',
+    danger: 'bg-red-500',
   };
   const bySize: Record<Size, string> = {
-    sm: 'px-3 py-2',
-    md: 'px-4 py-3',
-    lg: 'px-5 py-4',
+    sm: 'px-4 py-1.5',
+    md: 'px-6 py-2.5',
+    lg: 'px-8 py-3.5',
   };
-  const textColor =
-    variant === 'outline' || variant === 'ghost' ? 'text-gray-900' : 'text-white';
+  
+  const getTextColor = () => {
+    if (variant === 'primary') return 'text-white';
+    if (variant === 'secondary') return 'text-gray-900';
+    if (variant === 'danger') return 'text-white';
+    return 'text-gray-900';
+  };
+  
+  const textColor = getTextColor();
 
   return (
     <TouchableOpacity
@@ -53,7 +60,7 @@ export default function Button({
       activeOpacity={0.8}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'outline' || variant === 'ghost' ? '#111827' : '#fff'} />
+        <ActivityIndicator color={variant === 'primary' || variant === 'danger' ? '#fff' : '#111827'} />
       ) : (
         <Text className={`font-bold ${textColor}`} style={textStyle}>
           {title}

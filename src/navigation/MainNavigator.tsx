@@ -6,16 +6,22 @@ import LoginScreen from '../screens/LoginScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import UIDemoScreen from '../screens/UIDemoScreen';
+import UserInfoScreen from '../screens/UserInfoScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import AddressScreen from '../screens/AddressScreen';
+import PaymentScreen from '../screens/PaymentScreen';
+import HelpScreen from '../screens/HelpScreen';
 import { useAuthStore } from '../store/useAuthStore';
 
 const Stack = createNativeStackNavigator();
 
-const AppNavigator = () => {
+const MainNavigator = () => {
+  // Navigation setup
   const { loadUser } = useAuthStore();
 
   React.useEffect(() => {
     loadUser();
-  }, []);
+  }, [loadUser]);
 
   return (
     <NavigationContainer>
@@ -45,9 +51,34 @@ const AppNavigator = () => {
           component={UIDemoScreen} 
           options={{ headerShown: false }} 
         />
+        <Stack.Screen 
+          name="ProfileUserInfo" 
+          component={UserInfoScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="ProfileSettings" 
+          component={SettingsScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="ProfileAddress" 
+          component={AddressScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="ProfilePayment" 
+          component={PaymentScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="ProfileHelp" 
+          component={HelpScreen} 
+          options={{ headerShown: false }} 
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
-export default AppNavigator;
+export default MainNavigator;

@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Product } from '../types';
 import { useNavigation } from '@react-navigation/native';
-import { Card, Icon, Price, Rating } from '../ui';
+import { Card, Icon, Price, Rating, Image } from '../ui';
 
 interface Props {
   product: Product;

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { User, AuthResponse } from '../types';
 import api from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useCartStore } from './useCartStore';
 
 interface AuthState {
   user: User | null;
@@ -11,13 +12,23 @@ interface AuthState {
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
   loadUser: () => Promise<void>;
+  updateUser: (data: Partial<User>) => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   token: null,
   isLoading: false,
   error: null,
+
+  updateUser: (data) => {
+    const currentUser = get().user;
+    if (currentUser) {
+      const newUser = { ...currentUser, ...data };
+      set({ user: newUser });
+      AsyncStorage.setItem('auth-user', JSON.stringify(newUser));
+    }
+  },
 
   login: async (username, password) => {
     set({ isLoading: true, error: null });
@@ -42,6 +53,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     await AsyncStorage.removeItem('auth-token');
     await AsyncStorage.removeItem('auth-user');
     set({ user: null, token: null });
+    useCartStore.getState().clearCart();
   },
 
   loadUser: async () => {

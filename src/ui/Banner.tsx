@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Image, ScrollView, NativeScrollEvent, NativeSyntheticEvent, Dimensions } from 'react-native';
+import { View, ScrollView, NativeScrollEvent, NativeSyntheticEvent, Dimensions } from 'react-native';
+import Image from './Image';
 
 interface BannerProps {
   images: string[];

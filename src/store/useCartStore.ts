@@ -35,7 +35,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     // Sync with server if logged in (optional)
     try {
       await api.post('/cart', newItems);
-    } catch (e) {
+    } catch {
       // Ignore server sync errors for now
     }
   },
@@ -73,7 +73,7 @@ export const useCartStore = create<CartState>((set, get) => ({
           if (res.data) {
             set({ cartItems: res.data });
           }
-        } catch (e) {
+        } catch {
           // Ignore
         }
       }

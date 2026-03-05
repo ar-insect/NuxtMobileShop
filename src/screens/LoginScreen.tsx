@@ -13,7 +13,7 @@ const LoginScreen = () => {
     try {
       await login(username, password);
       navigation.replace('Tabs'); // Navigate to main tabs after login
-    } catch (e) {
+    } catch {
       Alert.alert('登录失败', error || '请检查用户名和密码');
     }
   };

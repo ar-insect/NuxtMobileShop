@@ -1,1 +1,7 @@
 node_modules
+.expo/
+.npm/
+.DS_Store
+*.log
+web-build/
+dist/

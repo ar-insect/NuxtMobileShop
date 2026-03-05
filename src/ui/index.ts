@@ -9,3 +9,4 @@ export { default as SearchBar } from './SearchBar';
 export { default as Banner } from './Banner';
 export { ToastProvider, useToast } from './Toast';
 export { default as Header } from './Header';
+export { default as Image } from './Image';

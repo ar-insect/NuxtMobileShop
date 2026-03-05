@@ -43,6 +43,8 @@
     "@types/react": "~18.2.45",
     "autoprefixer": "^10.4.27",
     "babel-preset-expo": "~10.0.0",
+    "eslint": "^9.39.3",
+    "eslint-config-expo": "^55.0.0",
     "express": "^5.2.1",
     "http-proxy-middleware": "^3.0.5",
     "postcss": "8.4.38",

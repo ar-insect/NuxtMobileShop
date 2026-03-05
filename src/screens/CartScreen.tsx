@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, SafeAreaView, Alert } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCartStore } from '../store/useCartStore';
 import { useNavigation } from '@react-navigation/native';
 import { CartItem } from '../types';
 import { nativeShadowClass, webShadowStyle } from '../utils/webStyle';
+import { Header, Image } from '../ui';
 
 const CartScreen = () => {
   const { cartItems, removeFromCart, updateQuantity, clearCart } = useCartStore();
@@ -65,15 +67,10 @@ const CartScreen = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <View
-        className={`p-4 bg-white border-b border-gray-100 ${nativeShadowClass('sm')}`}
-        style={webShadowStyle('sm')}
-      >
-        <Text className="text-xl font-bold text-center">我的购物车 ({cartItems.length})</Text>
-      </View>
+    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
+      <Header title={`我的购物车 (${cartItems.length})`} showBack={false} />
 
-      <ScrollView className="flex-1 p-4">
+      <ScrollView className="flex-1 p-4 bg-gray-50">
         {cartItems.length > 0 ? (
           cartItems.map(renderItem)
         ) : (

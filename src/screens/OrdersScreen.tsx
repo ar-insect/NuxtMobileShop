@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthStore } from '../store/useAuthStore';
 import { Order } from '../types';
 import api from '../utils/api';
@@ -45,25 +46,27 @@ const OrdersScreen = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
       <Header title="我的订单" />
       
-      {loading ? (
-        <View className="flex-1 justify-center items-center">
-          <Text>加载订单中...</Text>
-        </View>
-      ) : orders.length > 0 ? (
-        <FlatList
-          data={orders}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          contentContainerStyle={{ padding: 16 }}
-        />
-      ) : (
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-gray-500">暂无订单</Text>
-        </View>
-      )}
+      <View className="flex-1 bg-gray-50">
+        {loading ? (
+          <View className="flex-1 justify-center items-center">
+            <Text>加载订单中...</Text>
+          </View>
+        ) : orders.length > 0 ? (
+          <FlatList
+            data={orders}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            contentContainerStyle={{ padding: 16 }}
+          />
+        ) : (
+          <View className="flex-1 justify-center items-center">
+            <Text className="text-gray-500">暂无订单</Text>
+          </View>
+        )}
+      </View>
     </SafeAreaView>
   );
 };

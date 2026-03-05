@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useProductStore } from '../store/useProductStore';
 import { useCartStore } from '../store/useCartStore';
-import { Badge, Button, Card, Header, Icon, Price, Rating, Stepper, useToast } from '../ui';
+import { Badge, Button, Card, Header, Icon, Price, Rating, Stepper, useToast, Image } from '../ui';
 
 const ProductDetailScreen = () => {
   const route = useRoute<any>();
@@ -52,21 +53,21 @@ const ProductDetailScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
       <Header
         title="商品详情"
         right={
           <TouchableOpacity
             onPress={() => navigation.navigate('Cart')}
-            className="w-10 h-10 rounded-full items-center justify-center"
+            className="w-10 h-10 bg-pink-50 rounded-xl items-center justify-center"
             activeOpacity={0.85}
           >
-            <Icon name="ShoppingCart" size={20} color="#111827" />
+            <Icon name="ShoppingCart" size={20} color="#ff4757" />
           </TouchableOpacity>
         }
       />
 
-      <View className="flex-1">
+      <View className="flex-1 bg-gray-50">
         <ScrollView contentContainerStyle={{ paddingBottom: 110 }}>
           <View className="bg-rose-50">
             <View className="px-4 py-6">
